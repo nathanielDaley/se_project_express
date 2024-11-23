@@ -20,6 +20,9 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    "no-underscore-dangle": "off,
+    "no-underscore-dangle": "off",
+    "no-console": ["warn", { allow: ["error"] }],
   },
 };
+
+console.error("tesT");
