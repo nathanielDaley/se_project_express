@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const mainRouter = require("./routes/index");
 
 const { PORT = 3001 } = process.env;
 const app = express();
@@ -10,6 +11,11 @@ mongoose
     console.log("Connected to the Database");
   })
   .catch(console.error);
+
+// allows us to process request bodies
+app.use(express.json());
+
+app.use("/", mainRouter);
 
 app.listen(PORT, () => {
   console.log(`App listening at port ${PORT}`);
