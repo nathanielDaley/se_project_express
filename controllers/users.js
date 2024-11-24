@@ -1,29 +1,56 @@
 const User = require("../models/user");
+const {
+  DEFAULT_ERROR,
+  CREATE_USER_ERROR,
+  USER_NOT_FOUND_ERROR,
+  INVALID_USER_ID_ERROR,
+} = require("../utils/errors");
 
-module.exports.getUsers = (req, res) => {
+const getUsers = (request, response) => {
   User.find({})
-    .then((users) => res.status(200).send({ users }))
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send({ message: err.message });
+    .then((users) => {
+      return response.status(200).send({ users });
+    })
+    .catch((error) => {
+      console.error(error);
+      return response.status(500).send({ message: DEFAULT_ERROR });
     });
 };
 
-module.exports.getUser = (req, res) => {
-  User.findById(req.params.id)
-    .then((user) => res.send({ user }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+const getUser = (request, response) => {
+  const { id } = request.params;
+
+  User.findById(id)
+    .orFail()
+    .then((user) => {
+      return response.status(200).send({ user });
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.name === "DocumentNotFoundError") {
+        return response.status(404).send({ message: USER_NOT_FOUND_ERROR });
+      }
+      if (error.name === "CastError") {
+        return response.status(404).send({ message: INVALID_USER_ID_ERROR });
+      }
+      return response.status(500).send({ message: DEFAULT_ERROR });
+    });
 };
 
-module.exports.createUser = (req, res) => {
-  const { name, avatar } = req.body;
-
-  //console.log(`${name} ${avatar}`);
+const createUser = (request, response) => {
+  const { name, avatar } = request.body;
 
   User.create({ name, avatar })
-    .then((user) => res.status(201).send({ user }))
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send({ message: err.message });
+    .then((user) => {
+      return response.status(201).send({ user });
+    })
+    .catch((error) => {
+      console.error(error);
+      if (error.name === "ValidationError") {
+        return response.status(400).send({ message: CREATE_USER_ERROR });
+      }
+      return response.status(500).send({ message: DEFAULT_ERROR });
     });
 };
+
+module.exports = { getUsers, getUser, createUser };
