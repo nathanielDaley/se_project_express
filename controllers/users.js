@@ -18,9 +18,9 @@ const getUsers = (request, response) => {
 };
 
 const getUser = (request, response) => {
-  const { id } = request.params;
+  const { userId } = request.params;
 
-  User.findById(id)
+  User.findById(userId)
     .orFail()
     .then((user) => {
       return response.status(200).send({ user });

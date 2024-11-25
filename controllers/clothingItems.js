@@ -18,7 +18,8 @@ const getClothingItems = (request, response) => {
 };
 
 const createClothingItem = (request, response) => {
-  const { name, weather, imageUrl, owner, likes } = request.body;
+  const { name, weather, imageUrl, likes } = request.body;
+  const owner = request.owner;
 
   ClothingItem.create({ name, weather, imageUrl, owner, likes })
     .then((clothingItem) => {

@@ -15,6 +15,14 @@ mongoose
 // allows us to process request bodies
 app.use(express.json());
 
+app.use((request, response, next) => {
+  request.owner = {
+    _id: "67415f85eb067b8d9515ebc2",
+  };
+
+  next();
+});
+
 app.use("/", mainRouter);
 
 app.listen(PORT, () => {
