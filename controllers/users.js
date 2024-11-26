@@ -31,7 +31,7 @@ const getUser = (request, response) => {
         return response.status(404).send({ message: USER_NOT_FOUND_ERROR });
       }
       if (error.name === "CastError") {
-        return response.status(404).send({ message: INVALID_USER_ID_ERROR });
+        return response.status(400).send({ message: INVALID_USER_ID_ERROR });
       }
       return response.status(500).send({ message: DEFAULT_ERROR });
     });

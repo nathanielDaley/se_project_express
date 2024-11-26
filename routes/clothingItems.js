@@ -7,6 +7,6 @@ const {
 
 router.get("/", getClothingItems);
 router.post("/", createClothingItem);
-router.delete("/:id", deleteClothingItem);
+router.delete("/:itemId", deleteClothingItem);
 
 module.exports = router;

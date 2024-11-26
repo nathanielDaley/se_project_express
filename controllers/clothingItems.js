@@ -37,9 +37,9 @@ const createClothingItem = (request, response) => {
 };
 
 const deleteClothingItem = (request, response) => {
-  const { id } = request.params;
+  const { itemId } = request.params;
 
-  ClothingItem.findByIdAndRemove(id)
+  ClothingItem.findByIdAndRemove(itemId)
     .orFail()
     .then((clothingItem) => {
       return response.status(200).send({ clothingItem });
@@ -53,7 +53,7 @@ const deleteClothingItem = (request, response) => {
       }
       if (error.name === "CastError") {
         return response
-          .status(404)
+          .status(400)
           .send({ message: INVALID_CLOTHING_ITEM_ID_ERROR });
       }
       return response.status(500).send({ message: DEFAULT_ERROR });
