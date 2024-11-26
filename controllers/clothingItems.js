@@ -6,7 +6,7 @@ const {
   INVALID_CLOTHING_ITEM_ID_ERROR,
 } = require("../utils/errors");
 
-const getClothingItems = (request, response) => {
+module.exports.getClothingItems = (request, response) => {
   ClothingItem.find({})
     .then((clothingItems) => {
       return response.status(200).send({ clothingItems });
@@ -17,7 +17,7 @@ const getClothingItems = (request, response) => {
     });
 };
 
-const createClothingItem = (request, response) => {
+module.exports.createClothingItem = (request, response) => {
   const { name, weather, imageUrl, likes } = request.body;
   const owner = request.owner;
 
@@ -36,7 +36,7 @@ const createClothingItem = (request, response) => {
     });
 };
 
-const deleteClothingItem = (request, response) => {
+module.exports.deleteClothingItem = (request, response) => {
   const { itemId } = request.params;
 
   ClothingItem.findByIdAndRemove(itemId)
@@ -60,7 +60,7 @@ const deleteClothingItem = (request, response) => {
     });
 };
 
-const likeClothingItem = (request, response) => {
+module.exports.likeClothingItem = (request, response) => {
   const { itemId } = request.params;
   const userId = request.body.user._id;
 
@@ -89,7 +89,7 @@ const likeClothingItem = (request, response) => {
     });
 };
 
-const unlikeClothingItem = (request, response) => {
+module.exports.unlikeClothingItem = (request, response) => {
   const { itemId } = request.params;
   const userId = request.body.user._id;
 
@@ -116,12 +116,4 @@ const unlikeClothingItem = (request, response) => {
       }
       return response.status(500).send({ message: DEFAULT_ERROR });
     });
-};
-
-module.exports = {
-  getClothingItems,
-  createClothingItem,
-  deleteClothingItem,
-  likeClothingItem,
-  unlikeClothingItem,
 };
