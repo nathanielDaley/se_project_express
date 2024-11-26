@@ -8,9 +8,7 @@ const {
 
 const getClothingItems = (request, response) => {
   ClothingItem.find({})
-    .then((clothingItems) => {
-      return response.status(200).send({ clothingItems });
-    })
+    .then((clothingItems) => response.status(200).send({ clothingItems }))
     .catch((error) => {
       console.error(error);
       return response.status(500).send({ message: DEFAULT_ERROR });
@@ -22,9 +20,7 @@ const createClothingItem = (request, response) => {
   const owner = request.owner;
 
   ClothingItem.create({ name, weather, imageUrl, owner, likes })
-    .then((clothingItem) => {
-      return response.status(201).send({ clothingItem });
-    })
+    .then((clothingItem) => response.status(201).send({ clothingItem }))
     .catch((error) => {
       console.error(error);
       if (error.name === "ValidationError") {
@@ -41,9 +37,7 @@ const deleteClothingItem = (request, response) => {
 
   ClothingItem.findByIdAndRemove(itemId)
     .orFail()
-    .then((clothingItem) => {
-      return response.status(200).send({ clothingItem });
-    })
+    .then((clothingItem) => response.status(200).send({ clothingItem }))
     .catch((error) => {
       console.error(error);
       if (error.name === "DocumentNotFoundError") {
@@ -70,9 +64,7 @@ const likeClothingItem = (request, response) => {
     { new: true }
   )
     .orFail()
-    .then((clothingItem) => {
-      return response.status(200).send({ clothingItem });
-    })
+    .then((clothingItem) => response.status(200).send({ clothingItem }))
     .catch((error) => {
       console.error(error);
       if (error.name === "DocumentNotFoundError") {
@@ -99,9 +91,7 @@ const unlikeClothingItem = (request, response) => {
     { new: true }
   )
     .orFail()
-    .then((clothingItem) => {
-      return response.status(200).send({ clothingItem });
-    })
+    .then((clothingItem) => response.status(200).send({ clothingItem }))
     .catch((error) => {
       console.error(error);
       if (error.name === "DocumentNotFoundError") {

@@ -8,9 +8,7 @@ const {
 
 const getUsers = (request, response) => {
   User.find({})
-    .then((users) => {
-      return response.status(200).send({ users });
-    })
+    .then((users) => response.status(200).send({ users }))
     .catch((error) => {
       console.error(error);
       return response.status(500).send({ message: DEFAULT_ERROR });
@@ -22,9 +20,7 @@ const getUser = (request, response) => {
 
   User.findById(userId)
     .orFail()
-    .then((user) => {
-      return response.status(200).send({ user });
-    })
+    .then((user) => response.status(200).send({ user }))
     .catch((error) => {
       console.error(error);
       if (error.name === "DocumentNotFoundError") {
@@ -41,9 +37,7 @@ const createUser = (request, response) => {
   const { name, avatar } = request.body;
 
   User.create({ name, avatar })
-    .then((user) => {
-      return response.status(201).send({ user });
-    })
+    .then((user) => response.status(201).send({ user }))
     .catch((error) => {
       console.error(error);
       if (error.name === "ValidationError") {
