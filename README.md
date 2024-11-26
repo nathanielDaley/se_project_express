@@ -1,8 +1,19 @@
 # WTWR (What to Wear?): Back End
 
-Back end to the WTWR website created using [Node.js](https://nodejs.org/en), [Express](https://expressjs.com/), [Mongoose](https://www.npmjs.com/package/mongoose), and [MongoDB](https://www.mongodb.com/).
+Back end to the WTWR website.
+Receives and responds to server requests. 
+Get all users, specific use by ID and create a user.
+Get all clothing items, create clothing items, delete clothing items, and like and unlike clothing items. 
+See the specific routes [below](#routes).
 
 The front end can be found here: [<WTWR Front End>](https://github.com/nathanielDaley/se_project_react)
+
+## Technologies
+
+- [Node.js](https://nodejs.org/en)
+- [Express](https://expressjs.com/)
+- [Mongoose](https://www.npmjs.com/package/mongoose)
+- [MongoDB](https://www.mongodb.com/)
 
 ## Running the Project
 
@@ -15,7 +26,7 @@ The front end can be found here: [<WTWR Front End>](https://github.com/nathaniel
 - Get users(GET) - http://localhost:3001/users
 - Get specific user(GET) - http://localhost:3001/users/:userId
 - Create user(POST) - http://localhost:3001/users
-  - Body:  
+  - Body(JSON):  
 ```
 {
 "name": "George",
@@ -24,7 +35,7 @@ The front end can be found here: [<WTWR Front End>](https://github.com/nathaniel
 ```
 - Get clothing items(GET) - http://localhost:3001/items
 - Create clothingItem(POST) - http://localhost:3001/items
-  - Body like:
+  - Body(JSON):
 ```
 {
 "name": "hat",
