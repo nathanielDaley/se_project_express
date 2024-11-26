@@ -35,7 +35,7 @@ The front end can be found here: [<WTWR Front End>](https://github.com/nathaniel
 ```
 - Get clothing items(GET) - http://localhost:3001/items
 - Create clothingItem(POST) - http://localhost:3001/items
-  - Body(JSON):
+  - Body(JSON)(valid "weather"s: "hot", "warm", "cold"):
 ```
 {
 "name": "hat",
