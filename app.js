@@ -23,6 +23,14 @@ app.use((request, response, next) => {
   next();
 });
 
+app.use((request, response, next) => {
+  request.body.user = {
+    _id: "67415f85eb067b8d9515ebc2",
+  };
+
+  next();
+});
+
 app.use("/", mainRouter);
 
 app.listen(PORT, () => {
