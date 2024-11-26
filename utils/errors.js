@@ -8,10 +8,12 @@ const CLOTHING_ITEM_NOT_FOUND_ERROR = "That clothing item does not exist";
 const INVALID_USER_ID_ERROR = "Invalid user ID.";
 const INVALID_CLOTHING_ITEM_ID_ERROR = "Invalid clothing item ID.";
 
-const BAD_REQUEST = 400;
-const NOT_FOUND = 404;
-const DEFAULT = 500;
-const CREATED = 201;
+const INVALID_ROUTE_ERROR = "Invalid route";
+
+const BAD_REQUEST_STATUS = 400;
+const NOT_FOUND_STATUS = 404;
+const DEFAULT_STATUS = 500;
+const CREATED_STATUS = 201;
 
 module.exports = {
   DEFAULT_ERROR,
@@ -21,8 +23,9 @@ module.exports = {
   CLOTHING_ITEM_NOT_FOUND_ERROR,
   INVALID_USER_ID_ERROR,
   INVALID_CLOTHING_ITEM_ID_ERROR,
-  BAD_REQUEST,
-  NOT_FOUND,
-  DEFAULT,
-  CREATED,
+  INVALID_ROUTE_ERROR,
+  BAD_REQUEST_STATUS,
+  NOT_FOUND_STATUS,
+  DEFAULT_STATUS,
+  CREATED_STATUS,
 };

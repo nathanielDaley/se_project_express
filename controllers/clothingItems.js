@@ -4,10 +4,10 @@ const {
   CREATE_CLOTHING_ITEM_ERROR,
   CLOTHING_ITEM_NOT_FOUND_ERROR,
   INVALID_CLOTHING_ITEM_ID_ERROR,
-  BAD_REQUEST,
-  NOT_FOUND,
-  DEFAULT,
-  CREATED,
+  BAD_REQUEST_STATUS,
+  NOT_FOUND_STATUS,
+  DEFAULT_STATUS,
+  CREATED_STATUS,
 } = require("../utils/errors");
 
 const getClothingItems = (request, response) => {
@@ -15,7 +15,7 @@ const getClothingItems = (request, response) => {
     .then((clothingItems) => response.send({ clothingItems }))
     .catch((error) => {
       console.error(error);
-      return response.status(DEFAULT).send({ message: DEFAULT_ERROR });
+      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
@@ -26,15 +26,17 @@ const createClothingItem = (request, response) => {
   const userId = request.user._id;
 
   ClothingItem.create({ name, weather, imageUrl, owner: userId })
-    .then((clothingItem) => response.status(CREATED).send({ clothingItem }))
+    .then((clothingItem) =>
+      response.status(CREATED_STATUS).send({ clothingItem })
+    )
     .catch((error) => {
       console.error(error);
       if (error.name === "ValidationError") {
         return response
-          .status(BAD_REQUEST)
+          .status(BAD_REQUEST_STATUS)
           .send({ message: CREATE_CLOTHING_ITEM_ERROR });
       }
-      return response.status(DEFAULT).send({ message: DEFAULT_ERROR });
+      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
@@ -48,15 +50,15 @@ const deleteClothingItem = (request, response) => {
       console.error(error);
       if (error.name === "DocumentNotFoundError") {
         return response
-          .status(NOT_FOUND)
+          .status(NOT_FOUND_STATUS)
           .send({ message: CLOTHING_ITEM_NOT_FOUND_ERROR });
       }
       if (error.name === "CastError") {
         return response
-          .status(BAD_REQUEST)
+          .status(BAD_REQUEST_STATUS)
           .send({ message: INVALID_CLOTHING_ITEM_ID_ERROR });
       }
-      return response.status(DEFAULT).send({ message: DEFAULT_ERROR });
+      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
@@ -75,15 +77,15 @@ const likeClothingItem = (request, response) => {
       console.error(error);
       if (error.name === "DocumentNotFoundError") {
         return response
-          .status(NOT_FOUND)
+          .status(NOT_FOUND_STATUS)
           .send({ message: CLOTHING_ITEM_NOT_FOUND_ERROR });
       }
       if (error.name === "CastError") {
         return response
-          .status(BAD_REQUEST)
+          .status(BAD_REQUEST_STATUS)
           .send({ message: INVALID_CLOTHING_ITEM_ID_ERROR });
       }
-      return response.status(DEFAULT).send({ message: DEFAULT_ERROR });
+      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
@@ -102,15 +104,15 @@ const unlikeClothingItem = (request, response) => {
       console.error(error);
       if (error.name === "DocumentNotFoundError") {
         return response
-          .status(NOT_FOUND)
+          .status(NOT_FOUND_STATUS)
           .send({ message: CLOTHING_ITEM_NOT_FOUND_ERROR });
       }
       if (error.name === "CastError") {
         return response
-          .status(BAD_REQUEST)
+          .status(BAD_REQUEST_STATUS)
           .send({ message: INVALID_CLOTHING_ITEM_ID_ERROR });
       }
-      return response.status(DEFAULT).send({ message: DEFAULT_ERROR });
+      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
