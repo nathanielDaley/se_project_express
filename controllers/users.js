@@ -6,7 +6,7 @@ const {
   INVALID_USER_ID_ERROR,
 } = require("../utils/errors");
 
-module.exports.getUsers = (request, response) => {
+const getUsers = (request, response) => {
   User.find({})
     .then((users) => {
       return response.status(200).send({ users });
@@ -17,7 +17,7 @@ module.exports.getUsers = (request, response) => {
     });
 };
 
-module.exports.getUser = (request, response) => {
+const getUser = (request, response) => {
   const { userId } = request.params;
 
   User.findById(userId)
@@ -37,7 +37,7 @@ module.exports.getUser = (request, response) => {
     });
 };
 
-module.exports.createUser = (request, response) => {
+const createUser = (request, response) => {
   const { name, avatar } = request.body;
 
   User.create({ name, avatar })
@@ -52,3 +52,5 @@ module.exports.createUser = (request, response) => {
       return response.status(500).send({ message: DEFAULT_ERROR });
     });
 };
+
+module.exports = { getUsers, getUser, createUser };
