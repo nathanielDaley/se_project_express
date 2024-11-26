@@ -16,7 +16,7 @@ mongoose
 app.use(express.json());
 
 app.use((request, response, next) => {
-  request.owner = {
+  request.body.owner = {
     _id: "67415f85eb067b8d9515ebc2",
   };
 
