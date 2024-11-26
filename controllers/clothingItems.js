@@ -20,9 +20,12 @@ const getClothingItems = (request, response) => {
 };
 
 const createClothingItem = (request, response) => {
-  const { name, weather, imageUrl, owner } = request.body;
+  const { name, weather, imageUrl } = request.body;
 
-  ClothingItem.create({ name, weather, imageUrl, owner })
+  // -TODO remove userId when front-end fixed
+  const userId = request.user._id;
+
+  ClothingItem.create({ name, weather, imageUrl, owner: userId })
     .then((clothingItem) => response.status(CREATED).send({ clothingItem }))
     .catch((error) => {
       console.error(error);
@@ -59,7 +62,7 @@ const deleteClothingItem = (request, response) => {
 
 const likeClothingItem = (request, response) => {
   const { itemId } = request.params;
-  const userId = request.body.user._id;
+  const userId = request.user._id;
 
   ClothingItem.findByIdAndUpdate(
     itemId,
@@ -86,7 +89,7 @@ const likeClothingItem = (request, response) => {
 
 const unlikeClothingItem = (request, response) => {
   const { itemId } = request.params;
-  const userId = request.body.user._id;
+  const userId = request.user._id;
 
   ClothingItem.findByIdAndUpdate(
     itemId,

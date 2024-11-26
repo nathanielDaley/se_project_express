@@ -24,4 +24,5 @@ module.exports = {
   BAD_REQUEST,
   NOT_FOUND,
   DEFAULT,
+  CREATED,
 };

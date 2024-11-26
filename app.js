@@ -15,16 +15,10 @@ mongoose
 // allows us to process request bodies
 app.use(express.json());
 
+// for now, add the user here because the front-end doesn't currently properly send the user id
+// --TODO - remove
 app.use((request, response, next) => {
-  request.body.owner = {
-    _id: "67415f85eb067b8d9515ebc2",
-  };
-
-  next();
-});
-
-app.use((request, response, next) => {
-  request.body.user = {
+  request.user = {
     _id: "67415f85eb067b8d9515ebc2",
   };
 
