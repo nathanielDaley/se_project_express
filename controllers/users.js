@@ -1,4 +1,7 @@
+const bcrypt = require("bcryptjs");
+
 const User = require("../models/user");
+
 const {
   DEFAULT_ERROR,
   CREATE_USER_ERROR,
@@ -45,7 +48,9 @@ const getUser = (request, response) => {
 const createUser = (request, response) => {
   const { name, avatar, email, password } = request.body;
 
-  User.create({ name, avatar, email, password })
+  bcrypt
+    .hash(password, 10)
+    .then((hash) => User.create({ name, avatar, email, password: hash }))
     .then((user) => response.status(CREATED_STATUS).send({ user }))
     .catch((error) => {
       console.error(error);
