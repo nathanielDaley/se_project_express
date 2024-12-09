@@ -8,7 +8,9 @@ const {
   USER_NOT_FOUND_ERROR,
   INVALID_USER_ID_ERROR,
   DUPLICATE_EMAIL_ERROR,
+  LOGIN_ERROR,
   BAD_REQUEST_STATUS,
+  AUTHENTICATION_ERROR_STATUS,
   NOT_FOUND_STATUS,
   DEFAULT_STATUS,
   CREATED_STATUS,
@@ -70,4 +72,16 @@ const createUser = (request, response) => {
     });
 };
 
-module.exports = { getUsers, getUser, createUser };
+const login = (req, res) => {
+  const { email, password } = req.body;
+
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      // authentication successful! user is in the user variable
+    })
+    .catch((err) => {
+      res.status(AUTHENTICATION_ERROR_STATUS).send({ message: LOGIN_ERROR });
+    });
+};
+
+module.exports = { getUsers, getUser, createUser, login };

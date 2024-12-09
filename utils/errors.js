@@ -6,13 +6,17 @@ const CREATE_CLOTHING_ITEM_ERROR =
 const USER_NOT_FOUND_ERROR = "That user does not exist.";
 const DUPLICATE_EMAIL_ERROR =
   "That email is already in use, please use another.";
-const CLOTHING_ITEM_NOT_FOUND_ERROR = "That clothing item does not exist";
 const INVALID_USER_ID_ERROR = "Invalid user ID.";
+
+const LOGIN_ERROR = "Incorrect password or email";
+
+const CLOTHING_ITEM_NOT_FOUND_ERROR = "That clothing item does not exist";
 const INVALID_CLOTHING_ITEM_ID_ERROR = "Invalid clothing item ID.";
 
 const INVALID_ROUTE_ERROR = "Invalid route";
 
 const BAD_REQUEST_STATUS = 400;
+const AUTHENTICATION_ERROR_STATUS = 401;
 const NOT_FOUND_STATUS = 404;
 const DEFAULT_STATUS = 500;
 const CREATED_STATUS = 201;
@@ -23,11 +27,13 @@ module.exports = {
   CREATE_CLOTHING_ITEM_ERROR,
   USER_NOT_FOUND_ERROR,
   DUPLICATE_EMAIL_ERROR,
+  LOGIN_ERROR,
   CLOTHING_ITEM_NOT_FOUND_ERROR,
   INVALID_USER_ID_ERROR,
   INVALID_CLOTHING_ITEM_ID_ERROR,
   INVALID_ROUTE_ERROR,
   BAD_REQUEST_STATUS,
+  AUTHENTICATION_ERROR_STATUS,
   NOT_FOUND_STATUS,
   DEFAULT_STATUS,
   CREATED_STATUS,
