@@ -1,10 +1,11 @@
 const router = require("express").Router();
-const userRouter = require("./users");
 const clothingItemRounter = require("./clothingItems");
 const { INVALID_ROUTE_ERROR, NOT_FOUND_STATUS } = require("../utils/errors");
-const { login, createUser } = require("../controllers/users");
+const { login, createUser, getUser } = require("../controllers/users");
 
-router.use("/users", userRouter);
+const auth = require("../middlewares/auth");
+
+router.use("/users/me", auth, getUser);
 router.use("/items", clothingItemRounter);
 router.use("/signin", login);
 router.use("/signup", createUser);
