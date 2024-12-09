@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 
 const User = require("../models/user");
-
+const { JWT_SECRET } = require("../utils/config");
 const {
   DEFAULT_ERROR,
   CREATE_USER_ERROR,
@@ -77,7 +77,11 @@ const login = (req, res) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      // authentication successful! user is in the user variable
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
+        expiresIn: "7d",
+      });
+
+      res.send({ token });
     })
     .catch((err) => {
       res.status(AUTHENTICATION_ERROR_STATUS).send({ message: LOGIN_ERROR });
