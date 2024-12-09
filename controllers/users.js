@@ -1,7 +1,11 @@
 const bcrypt = require("bcryptjs");
 
 const User = require("../models/user");
-const { JWT_SECRET } = require("../utils/config");
+const {
+  JWT_SECRET,
+  SALT_LENGTH,
+  TOKEN_EXPIRATION,
+} = require("../utils/config");
 const {
   DEFAULT_ERROR,
   CREATE_USER_ERROR,
@@ -51,7 +55,7 @@ const createUser = (request, response) => {
   const { name, avatar, email, password } = request.body;
 
   bcrypt
-    .hash(password, 10)
+    .hash(password, SALT_LENGTH)
     .then((hash) => User.create({ name, avatar, email, password: hash }))
     .then((user) =>
       response.status(CREATED_STATUS).send({ _id: user._id, email: user.email })
@@ -78,7 +82,7 @@ const login = (req, res) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
-        expiresIn: "7d",
+        expiresIn: TOKEN_EXPIRATION,
       });
 
       res.send({ token });
