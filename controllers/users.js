@@ -42,9 +42,9 @@ const getUser = (request, response) => {
 };
 
 const createUser = (request, response) => {
-  const { name, avatar } = request.body;
+  const { name, avatar, email, password } = request.body;
 
-  User.create({ name, avatar })
+  User.create({ name, avatar, email, password })
     .then((user) => response.status(CREATED_STATUS).send({ user }))
     .catch((error) => {
       console.error(error);
