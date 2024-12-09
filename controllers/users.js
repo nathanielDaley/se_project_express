@@ -4,6 +4,7 @@ const {
   CREATE_USER_ERROR,
   USER_NOT_FOUND_ERROR,
   INVALID_USER_ID_ERROR,
+  DUPLICATE_EMAIL_ERROR,
   BAD_REQUEST_STATUS,
   NOT_FOUND_STATUS,
   DEFAULT_STATUS,
@@ -52,6 +53,11 @@ const createUser = (request, response) => {
         return response
           .status(BAD_REQUEST_STATUS)
           .send({ message: CREATE_USER_ERROR });
+      }
+      if (error.name === "MongoServerError" && error.code === 11000) {
+        return response
+          .status(BAD_REQUEST_STATUS)
+          .send({ message: DUPLICATE_EMAIL_ERROR });
       }
       return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });

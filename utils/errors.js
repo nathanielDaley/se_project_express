@@ -4,6 +4,8 @@ const CREATE_USER_ERROR =
 const CREATE_CLOTHING_ITEM_ERROR =
   "Error creating clothing item - ensure a valid name(2 to 30 characters), weather type('hot', 'warm', or 'cold'), image url, and owner id.";
 const USER_NOT_FOUND_ERROR = "That user does not exist.";
+const DUPLICATE_EMAIL_ERROR =
+  "That email is already in use, please use another.";
 const CLOTHING_ITEM_NOT_FOUND_ERROR = "That clothing item does not exist";
 const INVALID_USER_ID_ERROR = "Invalid user ID.";
 const INVALID_CLOTHING_ITEM_ID_ERROR = "Invalid clothing item ID.";
@@ -20,6 +22,7 @@ module.exports = {
   CREATE_USER_ERROR,
   CREATE_CLOTHING_ITEM_ERROR,
   USER_NOT_FOUND_ERROR,
+  DUPLICATE_EMAIL_ERROR,
   CLOTHING_ITEM_NOT_FOUND_ERROR,
   INVALID_USER_ID_ERROR,
   INVALID_CLOTHING_ITEM_ID_ERROR,
