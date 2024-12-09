@@ -9,6 +9,7 @@ const DUPLICATE_EMAIL_ERROR =
 const INVALID_USER_ID_ERROR = "Invalid user ID.";
 
 const LOGIN_ERROR = "Incorrect password or email";
+const AUTHORIZATION_ERROR = "Authorization required";
 
 const CLOTHING_ITEM_NOT_FOUND_ERROR = "That clothing item does not exist";
 const INVALID_CLOTHING_ITEM_ID_ERROR = "Invalid clothing item ID.";
