@@ -61,7 +61,7 @@ const createUser = (request, response) => {
     .then((user) =>
       response
         .status(CREATED_STATUS)
-        .send({ name: user.name, avatar: user.avatar })
+        .send({ email: user.email, name: user.name, avatar: user.avatar })
     )
     .catch((error) => {
       console.error(error);
