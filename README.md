@@ -23,26 +23,43 @@ The front end can be found here: [<WTWR Front End>](https://github.com/nathaniel
 
 ## Routes
 
-- Get users(GET) - http://localhost:3001/users
-- Get specific user(GET) - http://localhost:3001/users/:userId
-- Create user(POST) - http://localhost:3001/users
+- Login(POST) - https://localhost:3001/signin
   - Body(JSON):  
 ```
 {
-"name": "George",
-"avatar": "https://example.com/av.bmp"
+  "email": "abc@abc.com",
+  "password": "123abc"
+}
+```
+- Get logged in user(GET)(send authorization "bearer" token) - http://localhost:3001/users/me
+- Create user(POST) - http://localhost:3001/signup
+  - Body(JSON):  
+```
+{
+  "name": "George",
+  "avatar": "https://example.com/av.bmp",
+  "email": "abc@abc.com",
+  "password": "123abc"
+}
+```
+- Update user(PATCH)(send authorization "bearer" token) - http://localhost:3001/users
+  - Body(JSON):  
+```
+{
+  "name": "George",
+  "avatar": "https://example.com/av.bmp"
 }
 ```
 - Get clothing items(GET) - http://localhost:3001/items
-- Create clothingItem(POST) - http://localhost:3001/items
-  - Body(JSON)(valid "weather"s: "hot", "warm", "cold"):
+- Create clothingItem(POST)(send authorization "bearer" token) - http://localhost:3001/items
+  - Body(JSON)(valid "weather": "hot", "warm", "cold"):
 ```
 {
-"name": "hat",
-"weather": "hot",
-"imageUrl": "https://example.com/av.bmp"
+  "name": "hat",
+  "weather": "hot",
+  "imageUrl": "https://example.com/av.bmp"
 }
 ```
-- Delete clothing item(DELETE) - http://localhost:3001/items/:id
-- Like clothing item(PUT) - http://localhost:3001/items/:id/likes
-- Unlike clothing item(DELETE) - http://localhost:3001/items/:id/likes
+- Delete clothing item(DELETE)(send authorization "bearer" token) - http://localhost:3001/items/:id
+- Like clothing item(PUT)(send authorization "bearer" token) - http://localhost:3001/items/:id/likes
+- Unlike clothing item(DELETE)(send authorization "bearer" token) - http://localhost:3001/items/:id/likes
