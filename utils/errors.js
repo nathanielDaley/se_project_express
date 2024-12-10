@@ -13,7 +13,8 @@ const AUTHORIZATION_ERROR = "Authorization required";
 
 const CLOTHING_ITEM_NOT_FOUND_ERROR = "That clothing item does not exist";
 const INVALID_CLOTHING_ITEM_ID_ERROR = "Invalid clothing item ID.";
-const INVALID_CLOTHING_ITEM_USER = "You don't have permission to delete that.";
+const INVALID_CLOTHING_ITEM_ID_OR_USER_ERROR =
+  "You don't have permission to delete that.";
 
 const INVALID_ROUTE_ERROR = "Invalid route";
 
@@ -36,7 +37,7 @@ module.exports = {
   CLOTHING_ITEM_NOT_FOUND_ERROR,
   INVALID_USER_ID_ERROR,
   INVALID_CLOTHING_ITEM_ID_ERROR,
-  INVALID_CLOTHING_ITEM_USER,
+  INVALID_CLOTHING_ITEM_ID_OR_USER_ERROR,
   INVALID_ROUTE_ERROR,
   BAD_REQUEST_STATUS,
   AUTHENTICATION_ERROR_STATUS,

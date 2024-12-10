@@ -4,9 +4,8 @@ const {
   CREATE_CLOTHING_ITEM_ERROR,
   CLOTHING_ITEM_NOT_FOUND_ERROR,
   INVALID_CLOTHING_ITEM_ID_ERROR,
-  INVALID_CLOTHING_ITEM_USER,
+  INVALID_CLOTHING_ITEM_ID_OR_USER_ERROR,
   BAD_REQUEST_STATUS,
-  INSUFFICIENT_PERMISSIONS,
   NOT_FOUND_STATUS,
   DEFAULT_STATUS,
   CREATED_STATUS,
@@ -46,22 +45,15 @@ const deleteClothingItem = (request, response) => {
   const userId = request.user._id;
   const { itemId } = request.params;
 
-  ClothingItem.findByIdAndRemove(itemId)
+  ClothingItem.findOneAndRemove({ _id: itemId, owner: userId })
     .orFail()
-    .then((clothingItem) => {
-      if (clothingItem.owner !== userId) {
-        return response
-          .status(INSUFFICIENT_PERMISSIONS)
-          .send({ message: INVALID_CLOTHING_ITEM_USER });
-      }
-      return response.send({ clothingItem });
-    })
+    .then((clothingItem) => response.send({ clothingItem }))
     .catch((error) => {
       console.error(error);
       if (error.name === "DocumentNotFoundError") {
         return response
           .status(NOT_FOUND_STATUS)
-          .send({ message: CLOTHING_ITEM_NOT_FOUND_ERROR });
+          .send({ message: INVALID_CLOTHING_ITEM_ID_OR_USER_ERROR });
       }
       if (error.name === "CastError") {
         return response
