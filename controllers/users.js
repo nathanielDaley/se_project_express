@@ -20,7 +20,6 @@ const {
   DEFAULT_STATUS,
   CREATED_STATUS,
 } = require("../utils/errors");
-const { request } = require("express");
 
 const getUsers = (request, response) => {
   User.find({})
