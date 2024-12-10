@@ -8,10 +8,12 @@ const DUPLICATE_EMAIL_ERROR =
   "That email is already in use, please use another.";
 const INVALID_USER_ID_ERROR = "Invalid user ID.";
 
-const LOGIN_ERROR = "Incorrect password or email";
-const AUTHORIZATION_ERROR = "Authorization required";
+const LOGIN_ERROR = "Incorrect password or email.";
+const USERNAME_PASSWORD_REQUIRED_ERROR =
+  "The email and password fields are required.";
+const AUTHORIZATION_ERROR = "Authorization required.";
 
-const CLOTHING_ITEM_NOT_FOUND_ERROR = "That clothing item does not exist";
+const CLOTHING_ITEM_NOT_FOUND_ERROR = "That clothing item does not exist.";
 const INVALID_CLOTHING_ITEM_ID_ERROR = "Invalid clothing item ID.";
 const INVALID_CLOTHING_ITEM_USER_ERROR =
   "You don't have permission to delete that.";
@@ -33,6 +35,7 @@ module.exports = {
   USER_NOT_FOUND_ERROR,
   DUPLICATE_EMAIL_ERROR,
   LOGIN_ERROR,
+  USERNAME_PASSWORD_REQUIRED_ERROR,
   AUTHORIZATION_ERROR,
   CLOTHING_ITEM_NOT_FOUND_ERROR,
   INVALID_USER_ID_ERROR,

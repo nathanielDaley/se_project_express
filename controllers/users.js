@@ -14,7 +14,9 @@ const {
   INVALID_USER_ID_ERROR,
   DUPLICATE_EMAIL_ERROR,
   LOGIN_ERROR,
+  USERNAME_PASSWORD_REQUIRED_ERROR,
   BAD_REQUEST_STATUS,
+  AUTHENTICATION_ERROR_STATUS,
   NOT_FOUND_STATUS,
   UNIQUE_CONFILICT,
   DEFAULT_STATUS,
@@ -83,6 +85,11 @@ const updateUser = (request, response) => {
     .then((user) => response.send({ name: user.name, avatar: user.avatar }))
     .catch((error) => {
       console.error(error);
+      if (error.name === "ValidationError") {
+        return response
+          .status(BAD_REQUEST_STATUS)
+          .send({ message: CREATE_USER_ERROR });
+      }
       if (error.name === "DocumentNotFoundError") {
         return response
           .status(NOT_FOUND_STATUS)
@@ -100,18 +107,29 @@ const updateUser = (request, response) => {
 const login = (request, response) => {
   const { email, password } = request.body;
 
-  return User.findUserByCredentials(email, password)
+  if (!email || !password) {
+    return response
+      .status(BAD_REQUEST_STATUS)
+      .send({ message: USERNAME_PASSWORD_REQUIRED_ERROR });
+  }
+
+  User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: TOKEN_EXPIRATION,
       });
 
-      response.send({ token });
+      return response.send({ token });
     })
     .catch((error) => {
       console.error(error);
-      response.status(BAD_REQUEST_STATUS).send({ message: LOGIN_ERROR });
+      if (error.message === LOGIN_ERROR) {
+        return response
+          .status(AUTHENTICATION_ERROR_STATUS)
+          .send({ message: LOGIN_ERROR });
+      }
+      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
-module.exports = { getUsers, getUser, createUser, updateUser, login };
+module.exports = { getUser, createUser, updateUser, login };
