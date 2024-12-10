@@ -17,6 +17,7 @@ const {
   BAD_REQUEST_STATUS,
   AUTHENTICATION_ERROR_STATUS,
   NOT_FOUND_STATUS,
+  UNIQUE_CONFILICT,
   DEFAULT_STATUS,
   CREATED_STATUS,
 } = require("../utils/errors");
@@ -70,7 +71,7 @@ const createUser = (request, response) => {
       }
       if (error.name === "MongoServerError" && error.code === 11000) {
         return response
-          .status(BAD_REQUEST_STATUS)
+          .status(UNIQUE_CONFILICT)
           .send({ message: DUPLICATE_EMAIL_ERROR });
       }
       return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
