@@ -56,8 +56,6 @@ const getUser = (request, response) => {
 const createUser = (request, response) => {
   const { name, avatar, email, password } = request.body;
 
-  console.log(`${email} ${password}`);
-
   bcrypt
     .hash(password, SALT_LENGTH)
     .then((hash) => User.create({ name, avatar, email, password: hash }))
