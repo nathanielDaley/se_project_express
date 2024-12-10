@@ -4,6 +4,12 @@ const bcrypt = require("bcryptjs");
 
 const { LOGIN_ERROR } = require("../utils/errors");
 
+const removePassword = (user) => {
+  const { password, ...userWithoutPassword } = user.toObject();
+
+  return userWithoutPassword;
+};
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -55,12 +61,8 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(
           return Promise.reject(new Error(LOGIN_ERROR));
         }
 
-        return {
-          _id: user._id,
-          name: user.name,
-          avatar: user.avatar,
-          email: user.email,
-        };
+        // remove password from user in separate function to limit scope
+        return removePassword(user);
       });
     });
 };
