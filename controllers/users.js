@@ -21,15 +21,6 @@ const {
   CREATED_STATUS,
 } = require("../utils/errors");
 
-const getUsers = (request, response) => {
-  User.find({})
-    .then((users) => response.send({ users }))
-    .catch((error) => {
-      console.error(error);
-      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
-    });
-};
-
 const getUser = (request, response) => {
   const userId = request.user._id;
 
