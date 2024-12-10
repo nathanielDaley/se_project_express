@@ -4,11 +4,12 @@ const {
   CREATE_CLOTHING_ITEM_ERROR,
   CLOTHING_ITEM_NOT_FOUND_ERROR,
   INVALID_CLOTHING_ITEM_ID_ERROR,
-  INVALID_CLOTHING_ITEM_ID_OR_USER_ERROR,
+  INVALID_CLOTHING_ITEM_USER_ERROR,
   BAD_REQUEST_STATUS,
   NOT_FOUND_STATUS,
   DEFAULT_STATUS,
   CREATED_STATUS,
+  INSUFFICIENT_PERMISSIONS,
 } = require("../utils/errors");
 
 const getClothingItems = (request, response) => {
@@ -45,15 +46,35 @@ const deleteClothingItem = (request, response) => {
   const userId = request.user._id;
   const { itemId } = request.params;
 
-  ClothingItem.findOneAndRemove({ _id: itemId, owner: userId })
+  ClothingItem.findById(itemId)
     .orFail()
-    .then((clothingItem) => response.send({ clothingItem }))
+    .then(() =>
+      ClothingItem.findOneAndRemove({ _id: itemId, owner: userId })
+        .orFail()
+        .then((clothingItem) => response.send({ clothingItem }))
+        .catch((error) => {
+          console.error(error);
+          if (error.name === "DocumentNotFoundError") {
+            return response
+              .status(INSUFFICIENT_PERMISSIONS)
+              .send({ message: INVALID_CLOTHING_ITEM_USER_ERROR });
+          }
+          if (error.name === "CastError") {
+            return response
+              .status(BAD_REQUEST_STATUS)
+              .send({ message: INVALID_CLOTHING_ITEM_ID_ERROR });
+          }
+          return response
+            .status(DEFAULT_STATUS)
+            .send({ message: DEFAULT_ERROR });
+        })
+    )
     .catch((error) => {
       console.error(error);
       if (error.name === "DocumentNotFoundError") {
         return response
           .status(NOT_FOUND_STATUS)
-          .send({ message: INVALID_CLOTHING_ITEM_ID_OR_USER_ERROR });
+          .send({ message: INVALID_CLOTHING_ITEM_ID_ERROR });
       }
       if (error.name === "CastError") {
         return response
