@@ -15,12 +15,12 @@ const {
   DUPLICATE_EMAIL_ERROR,
   LOGIN_ERROR,
   BAD_REQUEST_STATUS,
-  AUTHENTICATION_ERROR_STATUS,
   NOT_FOUND_STATUS,
   UNIQUE_CONFILICT,
   DEFAULT_STATUS,
   CREATED_STATUS,
 } = require("../utils/errors");
+const { request } = require("express");
 
 const getUsers = (request, response) => {
   User.find({})
@@ -56,11 +56,15 @@ const getUser = (request, response) => {
 const createUser = (request, response) => {
   const { name, avatar, email, password } = request.body;
 
+  console.log(`${email} ${password}`);
+
   bcrypt
     .hash(password, SALT_LENGTH)
     .then((hash) => User.create({ name, avatar, email, password: hash }))
     .then((user) =>
-      response.status(CREATED_STATUS).send({ _id: user._id, email: user.email })
+      response
+        .status(CREATED_STATUS)
+        .send({ name: user.name, avatar: user.avatar })
     )
     .catch((error) => {
       console.error(error);
@@ -84,7 +88,7 @@ const updateUser = (request, response) => {
 
   User.findByIdAndUpdate(userId, { name, avatar }, { runValidators: true })
     .orFail()
-    .then((user) => response.send({ user }))
+    .then((user) => response.send({ name: user.name, avatar: user.avatar }))
     .catch((error) => {
       console.error(error);
       if (error.name === "DocumentNotFoundError") {
@@ -101,8 +105,8 @@ const updateUser = (request, response) => {
     });
 };
 
-const login = (req, res) => {
-  const { email, password } = req.body;
+const login = (request, response) => {
+  const { email, password } = request.body;
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
@@ -110,10 +114,11 @@ const login = (req, res) => {
         expiresIn: TOKEN_EXPIRATION,
       });
 
-      res.send({ token });
+      response.send({ token });
     })
-    .catch((err) => {
-      res.status(AUTHENTICATION_ERROR_STATUS).send({ message: LOGIN_ERROR });
+    .catch((error) => {
+      console.error(error);
+      response.status(BAD_REQUEST_STATUS).send({ message: LOGIN_ERROR });
     });
 };
 
