@@ -119,16 +119,17 @@ const login = (request, response) => {
         expiresIn: TOKEN_EXPIRATION,
       });
 
-      response.send({ token });
+      return response.send({ token });
     })
     .catch((error) => {
       console.error(error);
       if (error.message === LOGIN_ERROR) {
-        response
+        return response
           .status(AUTHENTICATION_ERROR_STATUS)
           .send({ message: LOGIN_ERROR });
       }
-      response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
+
+      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
