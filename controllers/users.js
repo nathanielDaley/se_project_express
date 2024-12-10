@@ -77,6 +77,29 @@ const createUser = (request, response) => {
     });
 };
 
+const updateUser = (request, response) => {
+  const userId = request.user._id;
+  const { name, avatar } = request.body;
+
+  User.findByIdAndUpdate(userId, { name, avatar }, { runValidators: true })
+    .orFail()
+    .then((user) => response.send({ user }))
+    .catch((error) => {
+      console.error(error);
+      if (error.name === "DocumentNotFoundError") {
+        return response
+          .status(NOT_FOUND_STATUS)
+          .send({ message: USER_NOT_FOUND_ERROR });
+      }
+      if (error.name === "CastError") {
+        return response
+          .status(BAD_REQUEST_STATUS)
+          .send({ message: INVALID_USER_ID_ERROR });
+      }
+      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
+    });
+};
+
 const login = (req, res) => {
   const { email, password } = req.body;
 
@@ -93,4 +116,4 @@ const login = (req, res) => {
     });
 };
 
-module.exports = { getUsers, getUser, createUser, login };
+module.exports = { getUsers, getUser, createUser, updateUser, login };
