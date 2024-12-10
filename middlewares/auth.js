@@ -21,6 +21,7 @@ module.exports = (request, response, next) => {
   try {
     payload = jwt.verify(token, JWT_SECRET);
   } catch (error) {
+    console.error(error);
     return response
       .status(AUTHENTICATION_ERROR_STATUS)
       .send({ message: AUTHORIZATION_ERROR });
@@ -28,5 +29,5 @@ module.exports = (request, response, next) => {
 
   request.user = payload;
 
-  next();
+  return next();
 };

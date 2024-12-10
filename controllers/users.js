@@ -31,7 +31,7 @@ const getUsers = (request, response) => {
 };
 
 const getUser = (request, response) => {
-  const { userId } = request.user;
+  const userId = request.user._id;
 
   User.findById(userId)
     .orFail()
