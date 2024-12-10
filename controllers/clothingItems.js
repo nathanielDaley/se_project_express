@@ -54,7 +54,7 @@ const deleteClothingItem = (request, response) => {
           .status(INSUFFICIENT_PERMISSIONS)
           .send({ message: INVALID_CLOTHING_ITEM_USER });
       }
-      response.send({ clothingItem });
+      return response.send({ clothingItem });
     })
     .catch((error) => {
       console.error(error);

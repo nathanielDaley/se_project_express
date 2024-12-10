@@ -55,9 +55,12 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(
           return Promise.reject(new Error(LOGIN_ERROR));
         }
 
-        delete user.password;
-
-        return user;
+        return {
+          _id: user._id,
+          name: user.name,
+          avatar: user.avatar,
+          email: user.email,
+        };
       });
     });
 };
