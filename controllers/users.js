@@ -83,7 +83,11 @@ const updateUser = (request, response) => {
   const userId = request.user._id;
   const { name, avatar } = request.body;
 
-  User.findByIdAndUpdate(userId, { name, avatar }, { runValidators: true })
+  User.findByIdAndUpdate(
+    userId,
+    { name, avatar },
+    { runValidators: true, new: true }
+  )
     .orFail()
     .then((user) => response.send({ name: user.name, avatar: user.avatar }))
     .catch((error) => {
