@@ -113,22 +113,22 @@ const login = (request, response) => {
       .send({ message: USERNAME_PASSWORD_REQUIRED_ERROR });
   }
 
-  User.findUserByCredentials(email, password)
+  return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: TOKEN_EXPIRATION,
       });
 
-      return response.send({ token });
+      response.send({ token });
     })
     .catch((error) => {
       console.error(error);
       if (error.message === LOGIN_ERROR) {
-        return response
+        response
           .status(AUTHENTICATION_ERROR_STATUS)
           .send({ message: LOGIN_ERROR });
       }
-      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
+      response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
