@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const helmet = require("helmet");
 
 const mainRouter = require("./routes/index");
 
@@ -15,6 +16,7 @@ mongoose
   .catch(console.error);
 
 app.use(cors());
+app.use(helmet());
 
 // allows us to process request bodies
 app.use(express.json());
