@@ -52,14 +52,12 @@ const createUser = (request, response) => {
     .hash(password, SALT_LENGTH)
     .then((hash) => User.create({ name, avatar, email, password: hash }))
     .then((user) =>
-      response
-        .status(CREATED_STATUS)
-        .send({
-          _id: user._id,
-          email: user.email,
-          name: user.name,
-          avatar: user.avatar,
-        })
+      response.status(CREATED_STATUS).send({
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        avatar: user.avatar,
+      })
     )
     .catch((error) => {
       console.error(error);

@@ -5,6 +5,8 @@ const helmet = require("helmet");
 
 const mainRouter = require("./routes/index");
 
+const errorHandler = require("./middlewares/errorHandler");
+
 const { PORT = 3001 } = process.env;
 const app = express();
 
@@ -22,6 +24,8 @@ app.use(helmet());
 app.use(express.json());
 
 app.use("/", mainRouter);
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`App listening at port ${PORT}`);
