@@ -5,7 +5,7 @@ const helmet = require("helmet");
 
 const mainRouter = require("./routes/index");
 
-const errorHandler = require("./middlewares/errorHandler");
+const errorHandler = require("./middlewares/error-handler");
 
 const { PORT = 3001 } = process.env;
 const app = express();

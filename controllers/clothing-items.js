@@ -1,4 +1,4 @@
-const ClothingItem = require("../models/clothingItem");
+const ClothingItem = require("../models/clothing-item");
 const {
   DEFAULT_ERROR,
   CREATE_CLOTHING_ITEM_ERROR,
