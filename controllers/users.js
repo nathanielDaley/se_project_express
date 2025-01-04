@@ -8,22 +8,21 @@ const {
   TOKEN_EXPIRATION,
 } = require("../utils/config");
 const {
-  DEFAULT_ERROR,
   CREATE_USER_ERROR,
   USER_NOT_FOUND_ERROR,
   INVALID_USER_ID_ERROR,
   DUPLICATE_EMAIL_ERROR,
   LOGIN_ERROR,
   USERNAME_PASSWORD_REQUIRED_ERROR,
-  BAD_REQUEST_STATUS,
-  AUTHENTICATION_ERROR_STATUS,
-  NOT_FOUND_STATUS,
-  UNIQUE_CONFILICT,
-  DEFAULT_STATUS,
   CREATED_STATUS,
 } = require("../utils/errors");
 
-const getUser = (request, response) => {
+const BadRequestError = require("../errors/bad-request-error");
+const AuthenticationError = require("../errors/authentication-error");
+const NotFoundError = require("../errors/not-found-error");
+const ConflictError = require("../errors/conflict-error");
+
+const getUser = (request, response, next) => {
   const userId = request.user._id;
 
   User.findById(userId)
@@ -32,20 +31,17 @@ const getUser = (request, response) => {
     .catch((error) => {
       console.error(error);
       if (error.name === "DocumentNotFoundError") {
-        return response
-          .status(NOT_FOUND_STATUS)
-          .send({ message: USER_NOT_FOUND_ERROR });
+        next(new NotFoundError(USER_NOT_FOUND_ERROR));
       }
       if (error.name === "CastError") {
-        return response
-          .status(BAD_REQUEST_STATUS)
-          .send({ message: INVALID_USER_ID_ERROR });
+        next(new BadRequestError(INVALID_USER_ID_ERROR));
+      } else {
+        next(error);
       }
-      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
-const createUser = (request, response) => {
+const createUser = (request, response, next) => {
   const { name, avatar, email, password } = request.body;
 
   bcrypt
@@ -62,20 +58,17 @@ const createUser = (request, response) => {
     .catch((error) => {
       console.error(error);
       if (error.name === "ValidationError") {
-        return response
-          .status(BAD_REQUEST_STATUS)
-          .send({ message: CREATE_USER_ERROR });
+        next(new BadRequestError(CREATE_USER_ERROR));
       }
       if (error.name === "MongoServerError" && error.code === 11000) {
-        return response
-          .status(UNIQUE_CONFILICT)
-          .send({ message: DUPLICATE_EMAIL_ERROR });
+        next(new ConflictError(DUPLICATE_EMAIL_ERROR));
+      } else {
+        next(error);
       }
-      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
-const updateUser = (request, response) => {
+const updateUser = (request, response, next) => {
   const userId = request.user._id;
   const { name, avatar } = request.body;
 
@@ -89,31 +82,24 @@ const updateUser = (request, response) => {
     .catch((error) => {
       console.error(error);
       if (error.name === "ValidationError") {
-        return response
-          .status(BAD_REQUEST_STATUS)
-          .send({ message: CREATE_USER_ERROR });
+        next(new BadRequestError(CREATE_USER_ERROR));
       }
       if (error.name === "DocumentNotFoundError") {
-        return response
-          .status(NOT_FOUND_STATUS)
-          .send({ message: USER_NOT_FOUND_ERROR });
+        next(new NotFoundError(USER_NOT_FOUND_ERROR));
       }
       if (error.name === "CastError") {
-        return response
-          .status(BAD_REQUEST_STATUS)
-          .send({ message: INVALID_USER_ID_ERROR });
+        next(new BadRequestError(INVALID_USER_ID_ERROR));
+      } else {
+        next(error);
       }
-      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
-const login = (request, response) => {
+const login = (request, response, next) => {
   const { email, password } = request.body;
 
   if (!email || !password) {
-    return response
-      .status(BAD_REQUEST_STATUS)
-      .send({ message: USERNAME_PASSWORD_REQUIRED_ERROR });
+    next(new BadRequestError(USERNAME_PASSWORD_REQUIRED_ERROR));
   }
 
   return User.findUserByCredentials(email, password)
@@ -127,12 +113,10 @@ const login = (request, response) => {
     .catch((error) => {
       console.error(error);
       if (error.message === LOGIN_ERROR) {
-        return response
-          .status(AUTHENTICATION_ERROR_STATUS)
-          .send({ message: LOGIN_ERROR });
+        next(new AuthenticationError(LOGIN_ERROR));
+      } else {
+        next(error);
       }
-
-      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 

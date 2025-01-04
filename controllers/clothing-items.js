@@ -1,27 +1,24 @@
 const ClothingItem = require("../models/clothing-item");
 const {
-  DEFAULT_ERROR,
   CREATE_CLOTHING_ITEM_ERROR,
   CLOTHING_ITEM_NOT_FOUND_ERROR,
   INVALID_CLOTHING_ITEM_ID_ERROR,
   INVALID_CLOTHING_ITEM_USER_ERROR,
-  BAD_REQUEST_STATUS,
-  NOT_FOUND_STATUS,
-  DEFAULT_STATUS,
   CREATED_STATUS,
-  INSUFFICIENT_PERMISSIONS,
 } = require("../utils/errors");
+const BadRequestError = require("../errors/bad-request-error");
+const ForbiddenError = require("../errors/forbidden-error");
+const NotFoundError = require("../errors/not-found-error");
 
-const getClothingItems = (request, response) => {
+const getClothingItems = (request, response, next) => {
   ClothingItem.find({})
     .then((clothingItems) => response.send({ clothingItems }))
     .catch((error) => {
-      console.error(error);
-      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
+      next(error);
     });
 };
 
-const createClothingItem = (request, response) => {
+const createClothingItem = (request, response, next) => {
   const { name, weather, imageUrl } = request.body;
 
   // -TODO remove userId when front-end fixed
@@ -32,17 +29,15 @@ const createClothingItem = (request, response) => {
       response.status(CREATED_STATUS).send({ clothingItem })
     )
     .catch((error) => {
-      console.error(error);
       if (error.name === "ValidationError") {
-        return response
-          .status(BAD_REQUEST_STATUS)
-          .send({ message: CREATE_CLOTHING_ITEM_ERROR });
+        next(new BadRequestError(CREATE_CLOTHING_ITEM_ERROR));
+      } else {
+        next(error);
       }
-      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
-const deleteClothingItem = (request, response) => {
+const deleteClothingItem = (request, response, next) => {
   const userId = request.user._id;
   const { itemId } = request.params;
 
@@ -53,39 +48,29 @@ const deleteClothingItem = (request, response) => {
         .orFail()
         .then((clothingItem) => response.send({ clothingItem }))
         .catch((error) => {
-          console.error(error);
           if (error.name === "DocumentNotFoundError") {
-            return response
-              .status(INSUFFICIENT_PERMISSIONS)
-              .send({ message: INVALID_CLOTHING_ITEM_USER_ERROR });
+            next(new ForbiddenError(INVALID_CLOTHING_ITEM_USER_ERROR));
           }
           if (error.name === "CastError") {
-            return response
-              .status(BAD_REQUEST_STATUS)
-              .send({ message: INVALID_CLOTHING_ITEM_ID_ERROR });
+            next(new BadRequestError(INVALID_CLOTHING_ITEM_ID_ERROR));
+          } else {
+            next(error);
           }
-          return response
-            .status(DEFAULT_STATUS)
-            .send({ message: DEFAULT_ERROR });
         })
     )
     .catch((error) => {
-      console.error(error);
       if (error.name === "DocumentNotFoundError") {
-        return response
-          .status(NOT_FOUND_STATUS)
-          .send({ message: INVALID_CLOTHING_ITEM_ID_ERROR });
+        next(new NotFoundError(INVALID_CLOTHING_ITEM_ID_ERROR));
       }
       if (error.name === "CastError") {
-        return response
-          .status(BAD_REQUEST_STATUS)
-          .send({ message: INVALID_CLOTHING_ITEM_ID_ERROR });
+        next(new BadRequestError(INVALID_CLOTHING_ITEM_ID_ERROR));
+      } else {
+        next(error);
       }
-      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
-const likeClothingItem = (request, response) => {
+const likeClothingItem = (request, response, next) => {
   const { itemId } = request.params;
   const userId = request.user._id;
 
@@ -97,22 +82,18 @@ const likeClothingItem = (request, response) => {
     .orFail()
     .then((clothingItem) => response.send({ clothingItem }))
     .catch((error) => {
-      console.error(error);
       if (error.name === "DocumentNotFoundError") {
-        return response
-          .status(NOT_FOUND_STATUS)
-          .send({ message: CLOTHING_ITEM_NOT_FOUND_ERROR });
+        next(new NotFoundError(CLOTHING_ITEM_NOT_FOUND_ERROR));
       }
       if (error.name === "CastError") {
-        return response
-          .status(BAD_REQUEST_STATUS)
-          .send({ message: INVALID_CLOTHING_ITEM_ID_ERROR });
+        next(new BadRequestError(INVALID_CLOTHING_ITEM_ID_ERROR));
+      } else {
+        next(error);
       }
-      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 
-const unlikeClothingItem = (request, response) => {
+const unlikeClothingItem = (request, response, next) => {
   const { itemId } = request.params;
   const userId = request.user._id;
 
@@ -124,18 +105,14 @@ const unlikeClothingItem = (request, response) => {
     .orFail()
     .then((clothingItem) => response.send({ clothingItem }))
     .catch((error) => {
-      console.error(error);
       if (error.name === "DocumentNotFoundError") {
-        return response
-          .status(NOT_FOUND_STATUS)
-          .send({ message: CLOTHING_ITEM_NOT_FOUND_ERROR });
+        next(new NotFoundError(CLOTHING_ITEM_NOT_FOUND_ERROR));
       }
       if (error.name === "CastError") {
-        return response
-          .status(BAD_REQUEST_STATUS)
-          .send({ message: INVALID_CLOTHING_ITEM_ID_ERROR });
+        next(new BadRequestError(INVALID_CLOTHING_ITEM_ID_ERROR));
+      } else {
+        next(error);
       }
-      return response.status(DEFAULT_STATUS).send({ message: DEFAULT_ERROR });
     });
 };
 

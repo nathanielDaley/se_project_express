@@ -1,7 +1,11 @@
+const { DEFAULT_STATUS, DEFAULT_ERROR } = require("../utils/errors");
+
 module.exports = (err, req, res, next) => {
   console.error(err);
 
-  res.send({ message: err.message });
+  const { statusCode = DEFAULT_STATUS, message } = err;
 
-  next();
+  res.status(statusCode).send({
+    message: statusCode === DEFAULT_STATUS ? DEFAULT_ERROR : message,
+  });
 };
