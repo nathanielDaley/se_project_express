@@ -28,6 +28,25 @@ const UNIQUE_CONFLICT = 409;
 const DEFAULT_STATUS = 500;
 const CREATED_STATUS = 201;
 
+const JOI_NAME_MIN_LENGTH_ERROR = 'The minimum length of the "name" field is 2';
+const JOI_NAME_MAX_LENGTH_ERROR =
+  'The maximum length of the "name" field is 30';
+const JOI_NAME_EMPTY_ERROR = 'The "name" field must be filled in';
+const JOI_WEATHER_EMPTY_ERROR = 'A "weather" must be chosen';
+const JOI_CARD_URL_EMPTY_ERROR = 'The "imageUrl" field must be filled in';
+const JOI_CARD_URL_INVALID_ERROR = 'the "imageUrl" field must be a valid url';
+const JOI_USER_URL_EMPTY_ERROR = 'The "avatar" field must be filled in';
+const JOI_USER_URL_INVALID_ERROR = 'the "avatar" field must be a valid url';
+const JOI_USER_EMAIL_EMPTY_ERROR = 'The "email" field must be filled in';
+const JOI_USER_EMAIL_INVALID_ERROR = 'The "email" field must be a valid url';
+const JOI_USER_PASSWORD_EMPTY_ERROR = 'The "password" field must be filled in';
+const JOI_CARD_MISSING_ID_ERROR = "A card ID must be provided";
+
+const CARD_NAME_MIN_LENGTH = 2;
+const CARD_NAME_MAX_LENGTH = 30;
+const USER_NAME_MIN_LENGTH = 2;
+const USER_NAME_MAX_LENGTH = 30;
+
 module.exports = {
   DEFAULT_ERROR,
   CREATE_USER_ERROR,
@@ -49,4 +68,20 @@ module.exports = {
   UNIQUE_CONFLICT,
   DEFAULT_STATUS,
   CREATED_STATUS,
+  JOI_NAME_MIN_LENGTH_ERROR,
+  JOI_NAME_MAX_LENGTH_ERROR,
+  JOI_NAME_EMPTY_ERROR,
+  JOI_WEATHER_EMPTY_ERROR,
+  JOI_CARD_URL_EMPTY_ERROR,
+  JOI_CARD_URL_INVALID_ERROR,
+  JOI_USER_URL_EMPTY_ERROR,
+  JOI_USER_URL_INVALID_ERROR,
+  JOI_USER_EMAIL_EMPTY_ERROR,
+  JOI_USER_EMAIL_INVALID_ERROR,
+  JOI_USER_PASSWORD_EMPTY_ERROR,
+  JOI_CARD_MISSING_ID_ERROR,
+  CARD_NAME_MIN_LENGTH,
+  CARD_NAME_MAX_LENGTH,
+  USER_NAME_MIN_LENGTH,
+  USER_NAME_MAX_LENGTH,
 };

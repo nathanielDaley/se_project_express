@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const helmet = require("helmet");
+const { errors } = require("celebrate");
 
 const mainRouter = require("./routes/index");
 
@@ -24,6 +25,8 @@ app.use(helmet());
 app.use(express.json());
 
 app.use("/", mainRouter);
+
+app.use(errors());
 
 app.use(errorHandler);
 
