@@ -2,11 +2,13 @@
 
 Back end to the WTWR website.
 Receives and responds to server requests. 
-Get all users, specific use by ID and create a user.
+Get all users, get specific user by ID and create a user.
 Get all clothing items, create clothing items, delete clothing items, and like and unlike clothing items. 
 See the specific routes [below](#routes).
 
 The front end can be found here: [<WTWR Front End>](https://github.com/nathanielDaley/se_project_react)
+
+Website: https://project-wtwr.jumpingcrab.com/
 
 ## Technologies
 
