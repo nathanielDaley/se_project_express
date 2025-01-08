@@ -8,6 +8,8 @@ require("dotenv").config();
 
 const mainRouter = require("./routes/index");
 
+const { limiter } = require("./middlewares/rate-limiter");
+
 const errorHandler = require("./middlewares/error-handler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
@@ -23,6 +25,8 @@ mongoose
 
 app.use(cors());
 app.use(helmet());
+
+app.use(limiter);
 
 // allows us to process request bodies
 app.use(express.json());
