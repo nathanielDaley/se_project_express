@@ -1,18 +1,14 @@
 const jwt = require("jsonwebtoken");
 
 const { JWT_SECRET } = require("../utils/config");
-const {
-  AUTHENTICATION_ERROR_STATUS,
-  AUTHORIZATION_ERROR,
-} = require("../utils/errors");
+const { AUTHORIZATION_ERROR } = require("../utils/errors");
+const AuthenticationError = require("../errors/authentication-error");
 
 module.exports = (request, response, next) => {
   const { authorization } = request.headers;
 
   if (!authorization || !authorization.startsWith("Bearer ")) {
-    return response
-      .status(AUTHENTICATION_ERROR_STATUS)
-      .send({ message: AUTHORIZATION_ERROR });
+    next(new AuthenticationError(AUTHORIZATION_ERROR));
   }
 
   const token = authorization.replace("Bearer ", "");
@@ -22,9 +18,7 @@ module.exports = (request, response, next) => {
     payload = jwt.verify(token, JWT_SECRET);
   } catch (error) {
     console.error(error);
-    return response
-      .status(AUTHENTICATION_ERROR_STATUS)
-      .send({ message: AUTHORIZATION_ERROR });
+    next(new AuthenticationError(AUTHORIZATION_ERROR));
   }
 
   request.user = payload;
