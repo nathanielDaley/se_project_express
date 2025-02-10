@@ -6,7 +6,7 @@ Get all users, get specific user by ID and create a user.
 Get all clothing items, create clothing items, delete clothing items, and like and unlike clothing items. 
 See the specific routes [below](#routes).
 
-The front end can be found here: [<WTWR Front End>](https://github.com/nathanielDaley/se_project_react)
+The front end can be found here: [WTWR Front End](https://github.com/nathanielDaley/se_project_react)
 
 Website: https://project-wtwr.jumpingcrab.com/
 
